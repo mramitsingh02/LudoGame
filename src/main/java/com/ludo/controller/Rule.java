@@ -1,5 +1,10 @@
 package com.ludo.controller;
 
-public class Rule {
-    private Condition condition;
+import java.util.function.Predicate;
+
+public interface Rule {
+    boolean isAllowed();
+    String getRuleDescription();
+    void setCondition(Predicate<?> ...rulePredicate);
+    void setValue(int number);
 }

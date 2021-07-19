@@ -6,8 +6,8 @@ import java.util.Set;
 
 @ToString
 public class Cell {
-    public final int row;
-    public final int column;
+    public int row;
+    public int column;
     public boolean isStampCell;
     public boolean isStartCell;
     public Set<Participant> participantSet;
@@ -31,7 +31,7 @@ public class Cell {
     }
 
     public String toString() {
-        return this.row + "@" + this.column + (isStampCell ? "*": "");
+        return this.row + "@" + this.column + (isStampCell ? "*" : "");
     }
 
     public int hashCode() {
@@ -50,6 +50,11 @@ public class Cell {
 
     public boolean isStartCell() {
         return isStartCell;
+    }
+
+    public Cell onStartCell() {
+        isStartCell = true;
+        return this;
     }
 
     public Cell setStartCell(boolean startCell) {

@@ -38,10 +38,10 @@ public class Participant {
         this.color = Objects.isNull(color) ? Color.NONE : color;
         this.user = Objects.isNull(user) ? User.COMPUTER : user;
         if (playerSet.isEmpty()) {
-            this.playerSet.add(Player.builder().id(1).color(color).name(name).build());
-            this.playerSet.add(Player.builder().id(2).color(color).name(name).build());
-            this.playerSet.add(Player.builder().id(3).color(color).name(name).build());
-            this.playerSet.add(Player.builder().id(4).color(color).name(name).build());
+            this.playerSet.add(Player.builder().id(1).color(color).currentCell(color.getStartIndex()).name(name).build());
+            this.playerSet.add(Player.builder().id(2).color(color).currentCell(color.getStartIndex()).name(name).build());
+            this.playerSet.add(Player.builder().id(3).color(color).currentCell(color.getStartIndex()).name(name).build());
+            this.playerSet.add(Player.builder().id(4).color(color).currentCell(color.getStartIndex()).name(name).build());
         } else {
             this.playerSet.addAll(playerSet);
         }
@@ -73,8 +73,12 @@ public class Participant {
     }
 
 
-    public List<Player> getPlayers() {
+    public List<Player>  getOnTrackPlayers() {
         return playerSet.stream().filter(Player::isOnTrack).collect(Collectors.toList());
+    }
+
+    public List<Player>  getOffTrackPlayers() {
+        return playerSet.stream().filter(Player::isOffTrack).collect(Collectors.toList());
     }
 
     public Color getColor() {
@@ -88,6 +92,15 @@ public class Participant {
     public int throwDisk(Dice dice) {
         return dice.roll();
     }
+
+    public int rollDice(Dice dice) {
+        return dice.roll();
+    }
+
+    public String readableName() {
+        return  color + "-" + name +  "-" + user + "-" + id;
+    }
+
 
     public static class ParticipantBuilder {
         private int id;
@@ -129,24 +142,33 @@ public class Participant {
         }
 
         public ParticipantBuilder defaultPlayer() {
-            this.playerSet.add(Player.builder().id(1).color(color).name(name).build());
-            this.playerSet.add(Player.builder().id(2).color(color).name(name).build());
-            this.playerSet.add(Player.builder().id(3).color(color).name(name).build());
-            this.playerSet.add(Player.builder().id(4).color(color).name(name).build());
+            if (playerSet.isEmpty()) {
+
+                this.playerSet.add(Player.builder().id(1).color(color).currentCell(color.getStartIndex()).name(name).build());
+                this.playerSet.add(Player.builder().id(2).color(color).currentCell(color.getStartIndex()).name(name).build());
+                this.playerSet.add(Player.builder().id(3).color(color).currentCell(color.getStartIndex()).name(name).build());
+                this.playerSet.add(Player.builder().id(4).color(color).currentCell(color.getStartIndex()).name(name).build());
+            }
             return this;
         }
 
         public Participant build() {
-            if (name == null) {
-                name = "Unknown";
-            }
-            if (color == null) {
-                color = Color.NONE;
-            }
-            if (playerSet.isEmpty()) {
-                defaultPlayer();
-            }
+            this.defaultName();
+            this.defaultColor();
+            this.defaultPlayer();
             return new Participant(id, name, color, user, playerSet);
+        }
+
+        private void defaultName() {
+            if (name == null) {
+                this.name("Unknown");
+            }
+        }
+
+        private void defaultColor() {
+            if (color == null) {
+                this.color(Color.NONE);
+            }
         }
 
     }

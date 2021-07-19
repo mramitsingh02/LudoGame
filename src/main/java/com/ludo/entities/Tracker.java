@@ -2,8 +2,6 @@ package com.ludo.entities;
 
 import lombok.ToString;
 
-import java.util.Arrays;
-
 @ToString
 public class Tracker {
     private Path[] path;
@@ -25,11 +23,4 @@ public class Tracker {
         return path[index];
     }
 
-    public void onTrack(Participant participant, Player currentParticipant, int number) {
-        Path startPath = getPath(participant.getId());
-        startPath.setPlayer(currentParticipant);
-        startPath.start();
-
-
-    }
 }

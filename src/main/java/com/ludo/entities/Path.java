@@ -2,13 +2,14 @@ package com.ludo.entities;
 
 import lombok.ToString;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @ToString
 public class Path {
     private int zoneId;
-    private Player player;
+    private Queue<Player> players = new LinkedBlockingDeque<>();
     private Cell[] cell;
     Map<Player, Cell> playerCellMap = new HashMap<>();
 
@@ -28,13 +29,40 @@ public class Path {
 
     }
 
+    @Override
+    public String toString() {
+        return "Path{" +
+                "zoneId=" + zoneId +
+                ", players=" + players +
+                ", cell=" + Arrays.toString(cell) +
+                ", playerCellMap=" + playerCellMap +
+                '}';
+    }
+
+    public int getZoneId() {
+        return zoneId;
+    }
+
     public void start() {
-        final Cell cell = playerCellMap.get(player);
+//        final Cell cell = playerCellMap.get(player);
      //   cell.isStartCell() ? cell.start(): cell.runBy(number);
 
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public Player setPlayer(Player player) {
+        this.players.add(player);
+        return player;
+    }
+
+    public void move() {
+
+    }
+
+    public void moveBy(int number) {
+        final Player player = players.remove();
+        final Cell cell = player.getCurrentCell();
+        cell.row = cell.getRow();
+        cell.column +=  number;
+
     }
 }

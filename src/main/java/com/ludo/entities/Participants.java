@@ -42,7 +42,9 @@ public class Participants implements Collection<Participant> {
         return new Object[0];
     }
 
-
+    public int initialCapacity() {
+        return capacity;
+    }
 
     @Override
     public boolean remove(Object o) {

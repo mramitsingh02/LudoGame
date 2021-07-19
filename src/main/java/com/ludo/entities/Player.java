@@ -16,10 +16,13 @@ public class Player implements Comparable<Player> {
     private Color color;
     @FieldNameConstants.Exclude
     private boolean isOnTrack;
+    private boolean isOnStamp;
+    private Cell currentCell;
+
 
     @Override
     public String toString() {
-        return  color +"-" + name +"-" + id ;
+        return color + "-" + name + "-" + id + "-" + currentCell;
     }
 
     @Override
@@ -31,8 +34,44 @@ public class Player implements Comparable<Player> {
         return isOnTrack;
     }
 
-    public Player setOnTrack(boolean onTrack) {
-        isOnTrack = onTrack;
+    public Player onTrack() {
+        isOnTrack = true;
         return this;
     }
+
+    public Player onStamp() {
+        isOnStamp = true;
+        return this;
+    }
+
+    public Player offTrack() {
+        isOnTrack = false;
+        return this;
+    }
+
+    public Cell getCurrentCell() {
+        return currentCell;
+    }
+
+    public Player setCurrentCell(Cell currentCell) {
+        this.currentCell = currentCell;
+        return this;
+    }
+
+    public boolean isNewPlayer() {
+        return !isOnTrack || !currentCell.isStartCell;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isOffTrack() {
+        return !isOnTrack;
+    }
+
+    public void start() {
+        this.onTrack().onStamp();
+    }
 }
+

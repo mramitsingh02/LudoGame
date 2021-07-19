@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class HomeZone {
     private Participant participant;
     private boolean isInHomeZone;
-    private Color color;
+    private final Color color;
     private HomeZone nextHomeZone;
     private List<Player> playerOnTrack = new ArrayList<>();
 
@@ -47,22 +47,11 @@ public class HomeZone {
         if (hasNoPlayerOnTrack()) {
             player = participant.getPlayer();
             setOnTrack(player);
-        } /*else if (hasSinglePlayerOnTrack()) {
-            player = participant.getPlayer();
-        } */ else {
+        } else {
             List<Player> allPlayerByParticipant = new ArrayList<>();
             allPlayerByParticipant.addAll(playerOnTrack);
-            allPlayerByParticipant.addAll(participant.getPlayers());
-            for (Player player1 : allPlayerByParticipant) {
-                if (player1.isOnTrack()) {
-                    System.out.println(player1 + " is on Track.");
-                } else {
-                    System.out.println(player1 + " is not on Track.");
-                }
-            }
-            Scanner scanner = new Scanner(System.in);
-            final int index = scanner.nextInt();
-            System.out.println("Enter the Player To run On Track: " + index);
+            allPlayerByParticipant.addAll(participant.getOffTrackPlayers());
+            final int index = chosePlayer(allPlayerByParticipant);
             player = onTrackAndOffTrackPlayer(index);
             setOnTrack(player);
             if (!playerOnTrack.contains(player)) {
@@ -73,11 +62,25 @@ public class HomeZone {
         return player;
     }
 
+    private int chosePlayer(List<Player> allPlayerByParticipant) {
+        for (Player player1 : allPlayerByParticipant) {
+            if (player1.isOnTrack()) {
+                System.out.println(player1 + " is on Track.");
+            } else {
+                System.out.println(player1 + " is not on Track.");
+            }
+        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the Player To run On Track: ");
+        final int index = scanner.nextInt();
+        return index;
+    }
+
     private Player onTrackAndOffTrackPlayer(int index) {
         Player player;
 
         try {
-            player= playerOnTrack.get(index);
+            player = playerOnTrack.get(index);
         } catch (IndexOutOfBoundsException e) {
             player = participant.getPlayerSet().remove();
         }
@@ -85,9 +88,34 @@ public class HomeZone {
         return player;
     }
 
+    private Player onTrackPlayer(int index) {
+        Player player;
+
+        try {
+            player = playerOnTrack.get(index);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+
+        return player;
+    }
+
+
     private void setOnTrack(Player player) {
-        player.setOnTrack(true);
         playerOnTrack.add(player);
     }
 
+    public Player getOnTrackPlayer() {
+        Player player;
+        if (playerOnTrack.isEmpty()) {
+            return null;
+        }
+        if (hasSinglePlayerOnTrack()) {
+            player = playerOnTrack.get(0);
+        } else {
+            final int index = chosePlayer(playerOnTrack);
+            player = onTrackPlayer(index);
+        }
+        return player;
+    }
 }
