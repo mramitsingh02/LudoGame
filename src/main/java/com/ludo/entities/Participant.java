@@ -13,30 +13,30 @@ public class Participant {
     private int id;
     private String name;
     private Color color;
-    private User user;
+    private UserType userType;
     private Queue<Player> playerSet = new ArrayBlockingQueue<>(4);
 
     public Participant() {
     }
 
     public Participant(String name, Color color) {
-        this(-1, name, color, User.COMPUTER, Collections.emptySet());
+        this(-1, name, color, UserType.COMPUTER, Collections.emptySet());
     }
 
-    public Participant(Color color, User user) {
-        this(-1, "Unknown", color, user, Collections.emptySet());
+    public Participant(Color color, UserType userType) {
+        this(-1, "Unknown", color, userType, Collections.emptySet());
     }
 
-    public Participant(String name, Color color, User user) {
-        this(-1, name, color, user, Collections.emptySet());
+    public Participant(String name, Color color, UserType userType) {
+        this(-1, name, color, userType, Collections.emptySet());
     }
 
 
-    public Participant(int id, String name, Color color, User user, Set<Player> playerSet) {
+    public Participant(int id, String name, Color color, UserType userType, Set<Player> playerSet) {
         this.id = id;
         this.name = Objects.isNull(name) ? "Unknown" : name;
         this.color = Objects.isNull(color) ? Color.NONE : color;
-        this.user = Objects.isNull(user) ? User.COMPUTER : user;
+        this.userType = Objects.isNull(userType) ? UserType.COMPUTER : userType;
         if (playerSet.isEmpty()) {
             this.playerSet.add(Player.builder().id(1).color(color).currentCell(color.getStartIndex()).name(name).build());
             this.playerSet.add(Player.builder().id(2).color(color).currentCell(color.getStartIndex()).name(name).build());
@@ -60,8 +60,8 @@ public class Participant {
         return name;
     }
 
-    public User getUser() {
-        return user;
+    public UserType getUserType() {
+        return userType;
     }
 
     public Queue<Player> getPlayerSet() {
@@ -98,7 +98,7 @@ public class Participant {
     }
 
     public String readableName() {
-        return  color + "-" + name +  "-" + user + "-" + id;
+        return  color + "-" + name +  "-" + userType + "-" + id;
     }
 
 
@@ -106,7 +106,7 @@ public class Participant {
         private int id;
         private String name;
         private Color color;
-        private User user;
+        private UserType userType;
         private Set<Player> playerSet = new TreeSet<>(Player::compareTo);
 
         public int getId() {
@@ -132,12 +132,12 @@ public class Participant {
             return this;
         }
 
-        public User getUser() {
-            return user;
+        public UserType getUser() {
+            return userType;
         }
 
-        public ParticipantBuilder user(User user) {
-            this.user = user;
+        public ParticipantBuilder user(UserType userType) {
+            this.userType = userType;
             return this;
         }
 
@@ -156,7 +156,7 @@ public class Participant {
             this.defaultName();
             this.defaultColor();
             this.defaultPlayer();
-            return new Participant(id, name, color, user, playerSet);
+            return new Participant(id, name, color, userType, playerSet);
         }
 
         private void defaultName() {

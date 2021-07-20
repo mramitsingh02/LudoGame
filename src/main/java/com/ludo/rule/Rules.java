@@ -1,4 +1,4 @@
-package com.ludo.controller;
+package com.ludo.rule;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.ludo.controller;
+package com.ludo.rule.utils;
 
 import java.util.function.Predicate;
 

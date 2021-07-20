@@ -1,4 +1,9 @@
-package com.ludo.entities;
+package com.ludo.factory;
+
+import com.ludo.entities.Color;
+import com.ludo.entities.Participant;
+import com.ludo.entities.Participants;
+import com.ludo.entities.UserType;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +16,7 @@ public class ParticipantsFactory {
         List<Color> list = participants.stream().map(Participant::getColor).collect(Collectors.toList());
         for (Color color : Color.values()) {
             if (!list.contains(color) && !Color.NONE.equals(color) && missingNoOfPayer > 0) {
-                participants.add(Participant.builder().color(color).user(User.COMPUTER).build());
+                participants.add(Participant.builder().color(color).user(UserType.COMPUTER).build());
                 missingNoOfPayer--;
             }
         }
@@ -30,7 +35,7 @@ public class ParticipantsFactory {
             for (Color color1 : Color.values())
                 if (color1.getStartIndex().row == j) {
                     nextParticipantColor = color1;
-                    participants.add(Participant.builder().color(nextParticipantColor).user(User.COMPUTER).build());
+                    participants.add(Participant.builder().color(nextParticipantColor).user(UserType.COMPUTER).build());
                     break;
                 }
 

@@ -1,5 +1,5 @@
 package com.ludo.entities;
 
-public enum User {
+public enum UserType {
     HUMAN, COMPUTER
 }

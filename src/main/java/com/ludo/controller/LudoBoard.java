@@ -1,6 +1,10 @@
 package com.ludo.controller;
 
 import com.ludo.entities.*;
+import com.ludo.factory.ParticipantsFactory;
+import com.ludo.rule.Rules;
+import com.ludo.rule.impl.RetryDiceRuleImpl;
+import com.ludo.rule.utils.RuleUtils;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -53,7 +57,7 @@ public class LudoBoard {
             final HomeZone currentHomeZone = homeZones[nextIndex(currentIndex)];
             currentParticipant = currentHomeZone.currentParticipant();
 //            int number = rollDiceByParticipantOrComputer(scanner);
-            int number = allTime6();
+            int number = dice.allTime6();
             rules.setNumber(number);
             if (rules.isAllowed()) {
                 System.out.println(">>>>>>>>" + currentParticipant.toString() + "<<<<<<<<");
@@ -124,7 +128,7 @@ public class LudoBoard {
     private int rollDiceByParticipantOrComputer(Scanner scanner) {
         int number = -1;
 
-        if (currentParticipant.getUser().equals(User.HUMAN)) {
+        if (currentParticipant.getUserType().equals(UserType.HUMAN)) {
             System.out.print(currentParticipant.readableName() + " Please roll the dice:");
             while (!"r".equals(scanner.next())) ;
             number = currentParticipant.rollDice(dice);
@@ -134,20 +138,12 @@ public class LudoBoard {
         return number;
     }
 
-    private boolean isMaxNumberOfDice(int number) {
-        return number == 6;
-    }
+
 
 
     private int nextIndex(int currentIndex) {
         return currentIndex % participants.size();
     }
 
-    private int throwDisk() {
-        return dice.roll();
-    }
 
-    private int allTime6() {
-        return 6;
-    }
 }

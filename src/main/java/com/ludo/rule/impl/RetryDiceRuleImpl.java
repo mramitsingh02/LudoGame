@@ -1,4 +1,7 @@
-package com.ludo.controller;
+package com.ludo.rule.impl;
+
+import com.ludo.rule.Condition;
+import com.ludo.rule.Rule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
