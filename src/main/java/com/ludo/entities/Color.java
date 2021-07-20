@@ -10,6 +10,6 @@ public enum Color {
     }
 
     public Cell getStartIndex() {
-        return startCellIndex;
+        return Cell.clone( startCellIndex);
     }
 }

@@ -30,6 +30,14 @@ public class Player implements Comparable<Player> {
         return color.compareTo(player.color) + Integer.valueOf(id).compareTo(player.id) + name.compareTo(player.name);
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public boolean isOnTrack() {
         return isOnTrack;
     }

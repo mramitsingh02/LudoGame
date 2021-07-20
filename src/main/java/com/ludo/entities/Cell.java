@@ -22,6 +22,10 @@ public class Cell {
         this.isStampCell = isStampCell;
     }
 
+    public static Cell clone(Cell startCellIndex) {
+        return new Cell(startCellIndex.getRow(), startCellIndex.getColumn());
+    }
+
     public int getRow() {
         return this.row;
     }
